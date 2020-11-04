@@ -276,8 +276,9 @@
 					<option>All</option>
 					<option>BDM</option>
 					<option>EDC</option>
-					<option>PowerCenter</option>
+					<option>DQ</option>
 					<option>IICS</option>
+					<option>PowerCenter</option>
 				</select>  
 			</div>
         
@@ -821,6 +822,11 @@
 	  					      }]
 	  					   },
 	  					   options: {
+						        plugins: {
+						            datalabels: {
+						                display: false
+						            }
+						        },
 	  						   legend: {
 	  						    	display: true
 	  						    },
@@ -876,8 +882,12 @@
   						            display: true,
   						            text: 'Usage Units / Country',
 					             fontSize: 14
-
   						        },
+						        plugins: {
+						            datalabels: {
+						                display: false
+						            }
+						        },
    						   legend: {
    						    	display: true
    						    },
@@ -899,6 +909,19 @@
 		        cache: false,
 		        timeout: 600000,
 		        success: function (data1) {
+		        	data1.sort((a, b) => {
+		        	    let fa = a.company,
+		        	        fb = b.company;
+
+		        	    if (fa < fb) {
+		        	        return -1;
+		        	    }
+		        	    if (fa > fb) {
+		        	        return 1;
+		        	    }
+		        	    return 0;
+		        	});
+		        	
 		        	if(typeof chart5 !== "undefined") {
 		    			chart5.destroy();
 		    		}

@@ -276,6 +276,7 @@
 					<option>All</option>
 					<option>BDM</option>
 					<option>EDC</option>
+					<option>DQ</option>
 					<option>PowerCenter</option>
 					<option>IICS</option>
 				</select>  
@@ -387,6 +388,11 @@
 	  					      }]
 	  					   },
 	  					   options: {
+						        plugins: {
+						            datalabels: {
+						                display: false
+						            }
+						        },
 	  						   legend: {
 	  						    	display: true
 	  						    },

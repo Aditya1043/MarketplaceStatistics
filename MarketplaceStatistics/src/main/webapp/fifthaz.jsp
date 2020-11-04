@@ -274,6 +274,7 @@
 					<option>All</option>
 					<option>BDM</option>
 					<option>EDC</option>
+					<option>DQ</option>
 					<option>PowerCenter</option>
 					<option>IICS</option>
 				</select>  
@@ -361,6 +362,19 @@
 		        cache: false,
 		        timeout: 600000,
 		        success: function (data1) {
+		        	data1.sort((a, b) => {
+		        	    let fa = a.company,
+		        	        fb = b.company;
+
+		        	    if (fa < fb) {
+		        	        return -1;
+		        	    }
+		        	    if (fa > fb) {
+		        	        return 1;
+		        	    }
+		        	    return 0;
+		        	});
+		        	
 		        	if(typeof chart5 !== "undefined") {
 		    			chart5.destroy();
 		    		}
