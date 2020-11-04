@@ -269,43 +269,12 @@
 					<span></span> <i class="fa fa-caret-down"></i>
 				</div>
 			</div>
-            
-            <div class="nav navbar-nav navbar-right padd" style="position: relative">
-			<span style="color:white">Products : </span><select id="products" onchange="refreshChart(this.value)" style="border: #8dcca9; background-color: #f0f1f2;">
-					<option>All</option>
-					<option>BDM</option>
-					<option>EDC</option>
-					<option>PowerCenter</option>
-					<option>IICS</option>
-				</select>  
-			</div>
         
-
         </nav>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-       <div class="container-fluid">
-	
-	  <div class="row">
-		<div class="col-sm-12 chart-container" style="position: relative; padding-bottom:5px;">
-	
-           <div class="card border-left-primary shadow h-100 py-2">
-               <div class="card-body">
-                 <div class="row no-gutters align-items-center">
-                   <div class="col mr-2">
-                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total No. of Subscribers</div>
-                     <div id="numberOfSubsribers" class="h5 mb-0 font-weight-bold text-gray-800">0</div>
-                   </div>
-                   <div class="col-auto">
-                     <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                   </div>
-                 </div>
-               </div>
-             </div>
-         </div>
-         </div>
-	
+       <div class="container-fluid">	
 	            <div class="box effect1">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Usage Trends</h6>
@@ -368,29 +337,120 @@
 	
 	$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 		chart2.destroy();
-		product = document.getElementById("products");
-		product.selectedIndex = 0;
-		refreshChart("All");
+		refreshChart();
 	});
 	
-	function trendDetails(product){
-		
+	function trendDetails(){
+		$.ajax({
+	        type: "GET",
+	        contentType: "application/json",
+	        url: "api/v1/azure/trendsDetails?toTime="+startDate+"&fromTime="+endDate,
+	        dataType: 'json',
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data1) {
+	        	if(typeof chart2 !== "undefined") {
+	    			chart2.destroy();
+	    		}
+	        	function newDateMoment(date) {
+					return moment(date).format('MMMM YYYY');
+				}
+	        	
+	        	var labels = data1.map(function(e) {
+        			var dt = newDateMoment(e.usingDate);
+        			return dt;
+        		});
+	        	
+        		var activeData = data1.map(function(e) {
+        		   return e.activeCustomers;
+        		});
+        		
+        		var newdata = data1.map(function(e) {        
+	        	   return e.newCustomers;
+	        	});
+        	
+	        	var churnedCustomers = data1.map(function(e) {        
+		       	   return e.churnedCustomers;
+		      	});
+        		
+    			var ctx = document.getElementById('myChart2').getContext('2d');
+    		    ctx.canvas.parentNode.style.height = "400px";
+    		
+    			var config = {
+   					   type: 'bar',
+   					   data: {
+   					      labels: labels,
+   					      datasets: [
+   					    	  {
+   					    		    label: 'Active Customers',
+   					    		    data: activeData,
+   					    		 	backgroundColor:'rgb(255, 218, 179)'
+
+   					    		  },
+   					    		  {
+   					    		    label: 'New Customers',
+   					    		    data: newdata,
+   					    		 	backgroundColor:'rgb(255, 119, 51)'
+
+   					    		  },
+   					    		  {
+   					    		    label: 'Churned Customers',
+   					    		    data: churnedCustomers,
+   					    		 	backgroundColor:'rgb(179, 60, 0)'
+   					    		  }
+   					    		]
+   					   },
+   					   options: {
+   						   legend: {
+   						    	display: false
+   						    },
+   						    title: {
+  						            display: true,
+  						            text: 'User Trend for Informatica products',
+					             fontSize: 14
+
+  						        },
+   						   scales: { 
+   							   xAxes: [{
+   					                type: 'time',
+   					                offset: true,
+   					                stacked:true,
+   					                time: {
+   					                    unit: 'month',
+   					                    displayFormats: { month: 'MMMM YYYY' },
+   				                        parser: 'MMMM YYYY'
+   					                },
+   					             	barThickness: 20,
+   					                scaleLabel: {
+   							             display: true,
+   							             labelString: 'Month',
+   							             fontSize: 14
+   							           }
+   					            }],
+   							   yAxes: [{
+   					                stacked:true,
+
+   							      ticks: {
+   							             beginAtZero: true
+   							           },
+   							      scaleLabel: {
+   							             display: true,
+   							             labelString: 'Users',
+   							             fontSize: 14
+   							           }
+   							  }]
+   							 },
+    				            maintainAspectRatio: false,
+   				            responsive: true
+   				            }
+    					};	
+    			chart2 = new Chart(ctx, config);
+	        }
+	    });
 	}
 	
-	function refreshChart(product){	  
-		   $.ajax({
-		        type: "GET",
-		        contentType: "application/json",
-		        url: "api/v1/azure/countHours?product="+product+"&toTime="+startDate+"&fromTime="+endDate,
-		        dataType: 'json',
-		        cache: false,
-		        timeout: 600000,
-		        success: function (data1) {
-
-		        	document.getElementById("numberOfHours").innerHTML = data1;
-		        }
-		    });
-		trendDetails(product);	
+	function refreshChart(){	  
+		trendDetails();	
 	}
 	
 </script>

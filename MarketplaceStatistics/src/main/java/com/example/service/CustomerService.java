@@ -262,7 +262,7 @@ public class CustomerService {
 	}
 	
 	public void saveAzureSecond() {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Customer_Apr2020-Oct2020_20201006121944___10062020_0649hrs__c10f1c12-2a14-49e8-94df-e6cc668b555d.csv"));
 			CSVParser csvParser = new CSVParser(br,
@@ -582,17 +582,12 @@ public class CustomerService {
 	
 	//azure
 	
-	public String azurecustomerDetailsByDate(String startDate, String endDate, String product) throws ParseException {
+	public String azurecustomerDetailsByDate(String startDate, String endDate) throws ParseException {
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		List<CountSubscribers> l=new ArrayList<>();
 		Date dd = format.parse(startDate);
 		Date dd1 = format.parse(endDate);
-		List<Object[]> list;
-		if(product.equals("All")) {
-			list = asdto.findAllSubscribersByDate(dd, dd1);
-		} else {
-			list = asdto.findSubscribersByDate(dd, dd1, product);
-		}
+		List<Object[]> list = asdto.findAllSubscribersByDate(dd, dd1);
 		list.forEach(data->{
 			CountSubscribers cs=new CountSubscribers();
 			cs.setCountSub((Long)data[0]);
@@ -607,16 +602,11 @@ public class CustomerService {
 		return res;
 	}
 	
-	public int azurecountSubscribers(String startDate, String endDate, String product) throws ParseException {
+	public int azurecountSubscribers(String startDate, String endDate) throws ParseException {
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		Date dd = format.parse(startDate);
 		Date dd1 = format.parse(endDate);
-		int i;
-		if(product.equals("All")) {
-			i=(Integer)asdto.findAllcountSubscribers(dd, dd1);
-		} else {
-			i=(Integer)asdto.findcountSubscribers(dd, dd1, product);
-		}
+		int i = (Integer)asdto.findAllcountSubscribers(dd, dd1);
 		return i;
 	}
 	

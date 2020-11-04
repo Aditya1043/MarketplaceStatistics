@@ -103,15 +103,15 @@ public class MarketplaceStatisticsController {
 	@RequestMapping("api/v1/azure/customerDetailsByDate")
 	@ResponseBody
 	public String azurecustomerDetailsByDate(Model model, @RequestParam(value="toTime") String startDate,
-			@RequestParam(value="fromTime") String endDate, @RequestParam(value="product") String product) throws ParseException {
-		return cs.azurecustomerDetailsByDate(startDate, endDate, product);
+			@RequestParam(value="fromTime") String endDate) throws ParseException {
+		return cs.azurecustomerDetailsByDate(startDate, endDate);
 	}
 	
 	@RequestMapping("api/v1/azure/countSubscribers")
 	@ResponseBody
 	public int azurecountSubscribers(Model model, @RequestParam(value="toTime") String startDate,
-			@RequestParam(value="fromTime") String endDate, @RequestParam(value="product") String product) throws ParseException {
-		return cs.azurecountSubscribers(startDate, endDate, product);
+			@RequestParam(value="fromTime") String endDate) throws ParseException {
+		return cs.azurecountSubscribers(startDate, endDate);
 	}
 	
 	@RequestMapping("api/v1/azure/countHours")

@@ -482,7 +482,7 @@
 	
 	$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 		chart1.destroy();
-		//chart2.destroy();
+		chart2.destroy();
 		chart3.destroy();
 		chart4.destroy();
 		chart5.destroy();
@@ -492,25 +492,23 @@
 	});
 	
 	$('#chartTypeChkBox').change(function(){
-		product = document.getElementById("products");
-		product = product.options[product.selectedIndex].value;
-		customerDetailsByDate(product);
+		customerDetailsByDate();
 	});
 	
-	function customerDetailsByDate(product){	
+	function customerDetailsByDate(){	
 		if (document.getElementById("chartTypeChkBox").checked) {
-			customerDetailsByDateType2(product);
+			customerDetailsByDateType2();
 		}
 		else {
-			customerDetailsByDateType1(product);
+			customerDetailsByDateType1();
 		}
 	}
 	
-	function customerDetailsByDateType1(product){	  
+	function customerDetailsByDateType1(){	  
 		  $.ajax({
 		        type: "GET",
 		        contentType: "application/json",
-		        url: "api/v1/azure/customerDetailsByDate?toTime="+startDate+"&fromTime="+endDate+"&product="+product,
+		        url: "api/v1/azure/customerDetailsByDate?toTime="+startDate+"&fromTime="+endDate,
 		        dataType: 'json',
 		        cache: false,
 		        timeout: 600000,
@@ -590,11 +588,11 @@
 
 	}
 	
-	function customerDetailsByDateType2(product){		
+	function customerDetailsByDateType2(){		
 		$.ajax({
 	        type: "GET",
 	        contentType: "application/json",
-	        url: "api/v1/azure/customerDetailsByDate?toTime="+startDate+"&fromTime="+endDate+"&product="+product,
+	        url: "api/v1/azure/customerDetailsByDate?toTime="+startDate+"&fromTime="+endDate,
 	        dataType: 'json',
 	        cache: false,
 	        timeout: 600000,
@@ -681,7 +679,7 @@
 	    });
 	}
 	
-	function trendDetails(product){
+	function trendDetails(){
 		$.ajax({
 	        type: "GET",
 	        contentType: "application/json",
@@ -690,6 +688,7 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data1) {
+	    		console.log(data1);
 	        	if(typeof chart2 !== "undefined") {
 	    			chart2.destroy();
 	    		}
@@ -761,6 +760,7 @@
    					                    displayFormats: { month: 'MMMM YYYY' },
    				                        parser: 'MMMM YYYY'
    					                },
+   					             	barThickness: 20,
    					                scaleLabel: {
    							             display: true,
    							             labelString: 'Month',
@@ -1065,7 +1065,7 @@
 		 $.ajax({
 		        type: "GET",
 		        contentType: "application/json",
-		        url: "api/v1/azure/countSubscribers?product="+product+"&toTime="+startDate+"&fromTime="+endDate,
+		        url: "api/v1/azure/countSubscribers?toTime="+startDate+"&fromTime="+endDate,
 		        dataType: 'json',
 		        cache: false,
 		        timeout: 600000,
@@ -1087,8 +1087,8 @@
 		        	document.getElementById("numberOfHours").innerHTML = data1;
 		        }
 		    });
-		customerDetailsByDate(product);
-		trendDetails(product);
+		customerDetailsByDate();
+		trendDetails();
 		UsageProductDetails(product);
 		UsageCountryDetails(product);
 		VisitsCountryDetails(product);		

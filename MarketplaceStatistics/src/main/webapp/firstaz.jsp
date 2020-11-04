@@ -268,18 +268,7 @@
 					<i class="fa fa-calendar"></i>&nbsp; 
 					<span></span> <i class="fa fa-caret-down"></i>
 				</div>
-			</div>
-            
-            <div class="nav navbar-nav navbar-right padd" style="position: relative">
-			<span style="color:white">Products : </span><select id="products" onchange="refreshChart(this.value)" style="border: #8dcca9; background-color: #f0f1f2;">
-					<option>All</option>
-					<option>BDM</option>
-					<option>EDC</option>
-					<option>PowerCenter</option>
-					<option>IICS</option>
-				</select>  
-			</div>
-        
+			</div>        
 
         </nav>
         <!-- End of Topbar -->
@@ -369,31 +358,27 @@
 	
 	$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
 		chart1.destroy();
-		product = document.getElementById("products");
-		product.selectedIndex = 0;
-		refreshChart("All");
+		refreshChart();
 	});
 	
 	$('#chartTypeChkBox').change(function(){
-		product = document.getElementById("products");
-		product = product.options[product.selectedIndex].value;
-		customerDetailsByDate(product);
+		customerDetailsByDate();
 	});
 	
-	function customerDetailsByDate(product){	
+	function customerDetailsByDate(){	
 		if (document.getElementById("chartTypeChkBox").checked) {
-			customerDetailsByDateType2(product);
+			customerDetailsByDateType2();
 		}
 		else {
-			customerDetailsByDateType1(product);
+			customerDetailsByDateType1();
 		}
 	}
 	
-	function customerDetailsByDateType1(product){	  
+	function customerDetailsByDateType1(){	  
 		  $.ajax({
 		        type: "GET",
 		        contentType: "application/json",
-		        url: "api/v1/azure/customerDetailsByDate?toTime="+startDate+"&fromTime="+endDate+"&product="+product,
+		        url: "api/v1/azure/customerDetailsByDate?toTime="+startDate+"&fromTime="+endDate,
 		        dataType: 'json',
 		        cache: false,
 		        timeout: 600000,
@@ -473,11 +458,11 @@
 
 	}
 	
-	function customerDetailsByDateType2(product){		
+	function customerDetailsByDateType2(){		
 		$.ajax({
 	        type: "GET",
 	        contentType: "application/json",
-	        url: "api/v1/azure/customerDetailsByDate?toTime="+startDate+"&fromTime="+endDate+"&product="+product,
+	        url: "api/v1/azure/customerDetailsByDate?toTime="+startDate+"&fromTime="+endDate,
 	        dataType: 'json',
 	        cache: false,
 	        timeout: 600000,
@@ -564,11 +549,11 @@
 	    });
 	}
 	
-	function refreshChart(product){
+	function refreshChart(){
 		 $.ajax({
 		        type: "GET",
 		        contentType: "application/json",
-		        url: "api/v1/azure/countSubscribers?product="+product+"&toTime="+startDate+"&fromTime="+endDate,
+		        url: "api/v1/azure/countSubscribers?toTime="+startDate+"&fromTime="+endDate,
 		        dataType: 'json',
 		        cache: false,
 		        timeout: 600000,
@@ -578,7 +563,7 @@
 		        }
 		   });
 
-		customerDetailsByDate(product);
+		customerDetailsByDate();
 	}
 	
 </script>
