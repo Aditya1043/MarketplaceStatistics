@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,10 +67,17 @@ public class CustomerService {
 		map.put("Informatica PowerCenter For Red Hat Linux (BYOL)", "PowerCenter");
 		map.put("Informatica PowerCenter For Red Hat Linux (PAYG)", "PowerCenter");
 		map.put("Informatica Remote Access Jump Server", "BDM");
+		map.put("Informatica Data Engineering Integration - Rhel", "DEI");
+		map.put("Informatica Data Quality For Red Hat Linux (BYOL)", "DQ");
+		map.put("Informatica PowerCenter For Windows (PAYG)", "PowerCenter");
 		
 		try {
 			String d = "12-10-2020";
-			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/daily_business_usage_by_instance_type_2020-04-07.csv"));
+			Calendar cal = Calendar.getInstance();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			cal.add(Calendar.DATE, -1);
+			String yesteday = dateFormat.format(cal.getTime());
+			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/aws/daily_business_usage_by_instance_type_" + yesteday + ".csv"));
 		    CSVParser csvParser = new CSVParser(br,
 		    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 		    List<First> first = new ArrayList<>();
@@ -96,7 +104,11 @@ public class CustomerService {
 	public void saveFirstPart() {
 		Map<String,String> map=new HashMap<String,String>();    
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/daily_business_usage_by_instance_type_2020-04-07.csv"));
+			Calendar cal = Calendar.getInstance();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			cal.add(Calendar.DATE, -1);
+			String yesteday = dateFormat.format(cal.getTime());
+			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/aws/daily_business_usage_by_instance_type_" + yesteday + ".csv"));
 			CSVParser csvParser = new CSVParser(br,
 				    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 			List<FirstPart> firstpart = new ArrayList<>();
@@ -156,9 +168,20 @@ public class CustomerService {
 		map.put("Informatica Remote Access Jump Server", "BDM");
 		map.put("RulePoint", "RulePoint");
 		map.put("Vibe Data Stream for Machine Data", "VDS");
+		map.put("Informatica Axon Data Governance 7.0 - Bastion", "AXON");
+		map.put("Informatica Axon Data Governance 7.0 - RHEL", "AXON");
+		map.put("Informatica Data Engineering Streaming - Bastion", "DES");
+		map.put("Informatica Data Engineering Streaming - Rhel", "DES");
+		map.put("Informatica Data Quality For Red Hat Linux (BYOL)", "DQ");
+		map.put("Informatica Data Privacy Management 1041 - Bastion", "DP");
+		map.put("Informatica Data Privacy Management 1041 - RHEL", "DP");
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/customer_subscriber_hourly_monthly_subscriptions_2020-04-07.csv"));
+			Calendar cal = Calendar.getInstance();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			cal.add(Calendar.DATE, -1);
+			String yesteday = dateFormat.format(cal.getTime());
+			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/aws/customer_subscriber_hourly_monthly_subscriptions_" + yesteday + ".csv"));
 			CSVParser csvParser = new CSVParser(br,
 				    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 			List<Second> second = new ArrayList<>();
