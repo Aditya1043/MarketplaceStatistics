@@ -35,6 +35,7 @@ import com.example.model.FirstPart;
 import com.example.model.Second;
 import com.example.model.TrendsData;
 import com.example.model.VisitsData;
+import com.example.scheduled.ScheduledTasks;
 import com.google.gson.Gson;
 
 @Service
@@ -78,6 +79,7 @@ public class CustomerService {
 			cal.add(Calendar.DATE, -1);
 			String yesteday = dateFormat.format(cal.getTime());
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/aws/daily_business_usage_by_instance_type_" + yesteday + ".csv"));
+			//BufferedReader br = new BufferedReader(new FileReader("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/aws/daily_business_usage_by_instance_type_" + yesteday + ".csv"));
 		    CSVParser csvParser = new CSVParser(br,
 		    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 		    List<First> first = new ArrayList<>();
@@ -109,6 +111,7 @@ public class CustomerService {
 			cal.add(Calendar.DATE, -1);
 			String yesteday = dateFormat.format(cal.getTime());
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/aws/daily_business_usage_by_instance_type_" + yesteday + ".csv"));
+			//BufferedReader br = new BufferedReader(new FileReader("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/aws/daily_business_usage_by_instance_type_" + yesteday + ".csv"));
 			CSVParser csvParser = new CSVParser(br,
 				    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 			List<FirstPart> firstpart = new ArrayList<>();
@@ -182,6 +185,7 @@ public class CustomerService {
 			cal.add(Calendar.DATE, -1);
 			String yesteday = dateFormat.format(cal.getTime());
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/aws/customer_subscriber_hourly_monthly_subscriptions_" + yesteday + ".csv"));
+			//BufferedReader br = new BufferedReader(new FileReader("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/aws/customer_subscriber_hourly_monthly_subscriptions_" + yesteday + ".csv"));
 			CSVParser csvParser = new CSVParser(br,
 				    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 			List<Second> second = new ArrayList<>();
@@ -261,6 +265,7 @@ public class CustomerService {
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Usage_Apr2020-Oct2020_20201006121913___10062020_0649hrs__fbc0345c-817e-4380-9caa-9d38924d3cfd.csv"));
+			//BufferedReader br = new BufferedReader(new FileReader("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/Usage_Apr2020-Oct2020_20201006121913___10062020_0649hrs__fbc0345c-817e-4380-9caa-9d38924d3cfd.csv"));
 			CSVParser csvParser = new CSVParser(br,
 				    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 			List<AzureFirst> azurefirst = new ArrayList<>();
@@ -288,17 +293,17 @@ public class CustomerService {
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Customer_Apr2020-Oct2020_20201006121944___10062020_0649hrs__c10f1c12-2a14-49e8-94df-e6cc668b555d.csv"));
+			//BufferedReader br = new BufferedReader(new FileReader("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/Customer_Apr2020-Oct2020_20201006121944___10062020_0649hrs__c10f1c12-2a14-49e8-94df-e6cc668b555d.csv"));
 			CSVParser csvParser = new CSVParser(br,
 				    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 			List<AzureSecond> azuresecond = new ArrayList<>();
-		    
 	        Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 	        for (CSVRecord csvRecord : csvRecords) {
 	        	AzureSecond as=new AzureSecond();
 	        	as.setSubId(csvRecord.get("Marketplace Subscription Id"));
 	        	Date ad = format.parse(csvRecord.get("DateAcquired"));
 	        	as.setAcquiredDate(ad);
-	        	if(csvRecord.get("DateLost")=="") {
+	        	if(csvRecord.get("DateLost").equals("")) {
 	        		as.setLostDate(null);
 	        	} else {
 	        		Date ld = format.parse(csvRecord.get("DateLost"));
@@ -340,6 +345,7 @@ public class CustomerService {
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Azure Marketplace___10062020_0706hrs__8ceb5fdd-5038-414a-8dfa-9484cefa5fbe.csv"));
+			//BufferedReader br = new BufferedReader(new FileReader("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/Azure Marketplace___10062020_0706hrs__8ceb5fdd-5038-414a-8dfa-9484cefa5fbe.csv"));
 			CSVParser csvParser = new CSVParser(br,
 				    CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 			List<AzureThird> azurethird = new ArrayList<>();

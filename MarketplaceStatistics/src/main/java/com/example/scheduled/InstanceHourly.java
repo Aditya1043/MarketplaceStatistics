@@ -31,7 +31,6 @@ import com.amazonaws.services.s3.transfer.TransferProgress;
 public class InstanceHourly {
 
 	public static void update_data(String statistics,int i ) throws IOException, ParseException, InterruptedException {
-
 		AWSCredentials credentials = null;
 		try {
 			credentials = new ProfileCredentialsProvider().getCredentials();
@@ -40,16 +39,14 @@ public class InstanceHourly {
 					+ "Please make sure that your credentials file is at the correct "
 					+ "location (~/.aws/credentials), and is in valid format.", e);
 		}
-
 		AmazonS3 s3 = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
 				.withRegion(Regions.US_EAST_1).build();
 
 		String bucketName = "marketplacestatrecords";
-		
 		  try { deleteFileWithExtension("src/main/resources/aws", ".csv"); } catch (IOException
+			//try { deleteFileWithExtension("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/aws", ".csv"); } catch (IOException
 		  e) { System.out.println("Problem occurs when deleting files");
 		  e.printStackTrace(); }
-		 
 		try {
 			ObjectListing objectListing = s3
 					.listObjects(new ListObjectsRequest().withBucketName(bucketName).withPrefix("Datafeed"));
@@ -79,6 +76,7 @@ public class InstanceHourly {
 				final BufferedInputStream checkStream = new BufferedInputStream(fetchFile.getObjectContent());
 				InputStream objectData = fetchFile.getObjectContent();
 				Files.copy(objectData, new File("src/main/resources/aws/"+instance_file).toPath()); 
+				//Files.copy(objectData, new File("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/aws/"+instance_file).toPath()); 
 				Thread.sleep(30*1000);
 				objectData.close();
 			} catch(Exception e) {
@@ -110,6 +108,5 @@ public class InstanceHourly {
 				throw new IOException();
 			}
 		}
-
 	}
 }

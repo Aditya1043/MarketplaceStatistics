@@ -9,10 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>Project-2</artifactId>
+	<artifactId>MarketplaceStatistics</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Project-2</name>
-	<description>Project</description>
+	<packaging>war</packaging>
+	<name>MarketplaceStatistics</name>
+	<description>MarketplaceStatistics</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -30,6 +31,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		    <scope>provided</scope>		
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>

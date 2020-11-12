@@ -84,6 +84,7 @@ public class CustomerHourly {
 
 			InputStream objectData = fetchFile.getObjectContent();
 			Files.copy(objectData, new File("src/main/resources/aws/"+instance_file).toPath()); 
+			//Files.copy(objectData, new File("/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/aws/"+instance_file).toPath()); 
 			int secondsToSleep = 60;
 			try {
 				Thread.sleep(secondsToSleep * 1000);
@@ -95,6 +96,7 @@ public class CustomerHourly {
 
 		
 			String directory = "src/main/resources/aws";
+			//String directory = "/test-users/adaggarwal/apache-tomcat-9.0.39/Datafeed/aws";
 
 			// Extension.
 			String extension = ".json";
