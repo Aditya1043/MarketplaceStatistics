@@ -17,6 +17,7 @@ public class ScheduledTasks {
 	
 	@Scheduled(cron = "0 0 15 * * ?")
 	//@Scheduled(fixedDelay=1000)
+	//@Scheduled(cron = "0 0/4 * * * ?")
 	public void scheduleTaskWithFixedRate() throws IOException, ParseException, InterruptedException {
 		InstanceHourly.update_data("daily_business_usage_by_instance_type" ,1 );
 		cs.saveFirst();

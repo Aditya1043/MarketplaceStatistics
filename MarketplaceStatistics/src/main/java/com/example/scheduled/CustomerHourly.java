@@ -109,7 +109,7 @@ public class CustomerHourly {
 			}
 
 
-			System.out.println();
+			System.out.println("end");
 		} catch (AmazonServiceException ase) {
 			System.out.println("Caught an AmazonServiceException, which means your request made it "
 					+ "to Amazon S3, but was rejected with an error response for some reason.");

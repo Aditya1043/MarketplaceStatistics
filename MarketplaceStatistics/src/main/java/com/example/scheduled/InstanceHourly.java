@@ -102,9 +102,10 @@ public class InstanceHourly {
 
 	public static void deleteFileWithExtension(String directory, String extension) throws IOException {
 		File dir = new File(directory);
-
+		System.out.println("1");
 		for (File file : dir.listFiles()) {
 			if (file.getName().endsWith(extension) && !file.delete()) {
+				System.out.println("aditya");
 				throw new IOException();
 			}
 		}

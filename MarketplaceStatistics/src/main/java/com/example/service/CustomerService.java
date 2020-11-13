@@ -57,21 +57,20 @@ public class CustomerService {
 	// function to parse the daily usage excel sheet, process the data and store it in h2 DB
 	public void saveFirst() {
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-		Map<String,String> map=new HashMap<String,String>();     
-		map.put("Informatica Big Data Management", "BDM");
-		map.put("Informatica Data Management as a Service for Amazon Web Services", "BDM");
-		map.put("Informatica Enterprise Data Catalog", "EDC");
-		map.put("Informatica Enterprise Data Catalog - Bastion", "EDC");
-		map.put("Informatica Enterprise Data Catalog - Rhel", "EDC");
-		map.put("Informatica Hadoop-Cluster Image for EDC", "EDC");
-		map.put("Informatica Intelligent Cloud Services ETL for Amazon PAYG", "IICS");
-		map.put("Informatica PowerCenter For Red Hat Linux (BYOL)", "PowerCenter");
-		map.put("Informatica PowerCenter For Red Hat Linux (PAYG)", "PowerCenter");
-		map.put("Informatica Remote Access Jump Server", "BDM");
-		map.put("Informatica Data Engineering Integration - Rhel", "DEI");
-		map.put("Informatica Data Quality For Red Hat Linux (BYOL)", "DQ");
-		map.put("Informatica PowerCenter For Windows (PAYG)", "PowerCenter");
-		
+		RegexpKeyedMap map = new RegexpKeyedMap();
+        map.put("Management", "BDM");
+        map.put("Quality", "DQ");
+        map.put("Streaming", "BDS");
+        map.put("Integration", "DEI");
+        map.put("Catalog", "EDC");
+        map.put("Preparation", "EDP");
+        map.put("EDC", "EDC");
+        map.put("Intelligent Cloud", "IICS");
+        map.put("PowerCenter", "PowerCenter");
+        map.put("Informatica Remote Access Jump Server", "BDM");
+        map.put("RulePoint", "RulePoint");
+        map.put("Vibe", "VDS");
+        map.put("Axon", "Axon");
 		try {
 			String d = "12-10-2020";
 			Calendar cal = Calendar.getInstance();
@@ -89,7 +88,7 @@ public class CustomerService {
 	    	    First f=new First();
 				f.setCompany(csvRecord.get("Customer Email Domain"));
 				f.setCustomer(csvRecord.get("Customer Reference ID"));
-				f.setProduct(map.get(csvRecord.get("Product Title")));			
+				f.setProduct((String)map.get(csvRecord.get("Product Title")));			
 				f.setUsage(Integer.valueOf(csvRecord.get("Usage Units")));
 				f.setInstance(csvRecord.get("Instance Type"));
 				f.setRevenue(Double.valueOf(csvRecord.get("Estimated Revenue")));
@@ -97,6 +96,8 @@ public class CustomerService {
 				first.add(f);
 	        }
 	        fdto.saveAll(first);
+	        csvParser.close();
+	        br.close();
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
@@ -128,6 +129,8 @@ public class CustomerService {
 				}	
 	        }
 	        fpdto.saveAll(firstpart);
+	        csvParser.close();
+	        br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -136,48 +139,20 @@ public class CustomerService {
 	// function to parse the customer_subscriber excel sheet, process the data and store it in h2 DB
 	public void saveSecond() {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Map<String,String> map=new HashMap<String,String>();
-		map.put("Informatica Big Data Management", "BDM");
-		map.put("Informatica Big Data Management (BYOL)", "BDM");
-		map.put("Informatica Big Data Quality", "DQ");
-		map.put("Informatica Big Data Streaming", "BDS");
-		map.put("Informatica Data Engineering Integration - Bastion", "DEI");
-		map.put("Informatica Data Engineering Integration - Rhel", "DEI");
-		map.put("Informatica Data Engineering Quality - Bastion", "DQ");
-		map.put("Informatica Data Engineering Quality - Rhel", "DQ");
-		map.put("Informatica Data Management as a Service for Amazon Web Services",	"BDM");
-		map.put("Informatica Data Quality For RHEL (BYOL)", "DQ");
-		map.put("Informatica Data Quality For Windows (BYOL)", "DQ");
-		map.put("Informatica Enterprise Data Catalog", "EDC");
-		map.put("Informatica Enterprise Data Catalog - Bastion", "EDC");
-		map.put("Informatica Enterprise Data Catalog - Rhel", "EDC");
-		map.put("Informatica Enterprise Data Preparation - Rhel", "EDP");
-		map.put("Informatica Enterprise Data Preparation -Bastion", "EDP");
-		map.put("Informatica Hadoop-Cluster Image for EDC", "EDC");
-		map.put("Informatica Intelligent Cloud Services ETL for Amazon PAYG", "IICS");
-		map.put("Informatica Intelligent Cloud Services for Amazon Aurora (Linux)",	"IICS");
-		map.put("Informatica Intelligent Cloud Services for Amazon Aurora (Windows)", "IICS");
-		map.put("Informatica Intelligent Cloud Services for Amazon RDS (Linux)", "IICS");
-		map.put("Informatica Intelligent Cloud Services for Amazon RDS (Windows)", "IICS");
-		map.put("Informatica Intelligent Cloud Services for Amazon Redshift (Linux)", "IICS");
-		map.put("Informatica Intelligent Cloud Services for Amazon Redshift (Windows)",	"IICS");
-		map.put("Informatica Intelligent Cloud Services for Amazon S3 (Linux)", "IICS");
-		map.put("Informatica Intelligent Cloud Services for Amazon S3 (Windows)", "IICS");
-		map.put("Informatica Intelligent Cloud Services Secure Agent Windows (BYOL)", "IICS");
-		map.put("Informatica PowerCenter For Red Hat Linux (BYOL)", "PowerCenter");
-		map.put("Informatica PowerCenter For Red Hat Linux (PAYG)", "PowerCenter");
-		map.put("Informatica PowerCenter For Windows (BYOL)", "PowerCenter");
-		map.put("Informatica PowerCenter For Windows (PAYG)", "PowerCenter");
-		map.put("Informatica Remote Access Jump Server", "BDM");
-		map.put("RulePoint", "RulePoint");
-		map.put("Vibe Data Stream for Machine Data", "VDS");
-		map.put("Informatica Axon Data Governance 7.0 - Bastion", "AXON");
-		map.put("Informatica Axon Data Governance 7.0 - RHEL", "AXON");
-		map.put("Informatica Data Engineering Streaming - Bastion", "DES");
-		map.put("Informatica Data Engineering Streaming - Rhel", "DES");
-		map.put("Informatica Data Quality For Red Hat Linux (BYOL)", "DQ");
-		map.put("Informatica Data Privacy Management 1041 - Bastion", "DP");
-		map.put("Informatica Data Privacy Management 1041 - RHEL", "DP");
+		RegexpKeyedMap map = new RegexpKeyedMap();
+        map.put("Management", "BDM");
+        map.put("Quality", "DQ");
+        map.put("Streaming", "BDS");
+        map.put("Integration", "DEI");
+        map.put("Catalog", "EDC");
+        map.put("Preparation", "EDP");
+        map.put("EDC", "EDC");
+        map.put("Intelligent Cloud", "IICS");
+        map.put("PowerCenter", "PowerCenter");
+        map.put("Informatica Remote Access Jump Server", "BDM");
+        map.put("RulePoint", "RulePoint");
+        map.put("Vibe", "VDS");
+        map.put("Axon", "Axon");
 		
 		try {
 			Calendar cal = Calendar.getInstance();
@@ -194,12 +169,14 @@ public class CustomerService {
 	        for (CSVRecord csvRecord : csvRecords) {
 	    	    Second s=new Second();
 				s.setCustomer(csvRecord.get("Customer AWS Account Number"));
-				s.setProduct(map.get(csvRecord.get("Product Title")));
+				s.setProduct((String)map.get(csvRecord.get("Product Title")));
 				Date date = format.parse(csvRecord.get("Subscription Start Date"));
 				s.setStartDate(date);
 				second.add(s);	
 	        }
 	        sdto.saveAll(second);
+	        csvParser.close();
+	        br.close();
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
@@ -207,61 +184,49 @@ public class CustomerService {
 	
 	public void saveAzureFirst() {
 		DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-		Map<String,String> m=new HashMap<String,String>();
-		m.put("BDM VM IMAGE 10.2", "BDM");
-		m.put("BDM VM IMAGE 10.2.1", "BDM");
-		m.put("Big Data Management 10.1.1-UPDATE2 VM Image", "BDM");
-		m.put("Big Data Management 10.2 BYOL", "BDM");
-		m.put("DB VM IMAGE 10.2.2",	"DB");
-		m.put("EDC 10.2.2 HF1 DB VM ONLY", "EDC");
-		m.put("EDC VM IMAGE 10.2", "EDC");
-		m.put("EDC VM IMAGE 10.2.2", "EDC");
-		m.put("EDC VM IMAGE 10.2.2 HF1", "EDC");
-		m.put("ICS PAYG Windows", "ICS");
-		m.put("IDQ 10.1.1 HF2 VM Image Windows Server", "DQ");
-		m.put("IHS VM IMAGE 10.2.2", "IHS");
-		m.put("IICS RHEL LINUX BYOL", "IICS");
-		m.put("IICS WINDOWS BYOL", "IICS");
-		m.put("Informatica AXON 7", "AXON");
-		m.put("Informatica Data Accelerator for Azure - Win_BYOL", "IDA");
-		m.put("Informatica Data Accelerator for Azure_Ubuntu_BYOL", "IDA");
-		m.put("Informatica database", "DB");
-		m.put("Informatica Database 1041", "DB");
-		m.put("Informatica Intelligent Cloud Services Ubuntu-BYOL", "IICS");
-		m.put("Informatica Intelligent Cloud Services Win-BYOL", "IICS");
-		m.put("Informatica Server", "Server");
-		m.put("Informatica Server 1041", "Server");
-		m.put("Informatica Server for Windows",	"Server");
-		m.put("Informatica Windows 1041", "Windows");
-		m.put("PC 10.2 HF1 Domain VM Image RHEL", "PowerCenter");
-		m.put("PC 10.2 HF2 Domain VM Image RHEL", "PowerCenter");
-		m.put("PC 10.2 HF2 Domain VM Image WINDOWS", "PowerCenter");
-		m.put("SqlServer 2014 Image for PC & BDM solutions", "Server");
-		m.put("Australia", "AU");
-		m.put("Brazil",	"BR");
-		m.put("Bulgaria", "BG");
-		m.put("Canada",	"CA");
-		m.put("Finland", "FI");
-		m.put("France",	"FR");
-		m.put("Germany", "DE");
-		m.put("India", "IN");
-		m.put("Italy", "IT");
-		m.put("Netherlands", "NL");
-		m.put("Norway", "NO");
-		m.put("Pakistan", "PK");
-		m.put("Peru", "PE");
-		m.put("Qatar", "QA");
-		m.put("Romania", "RO");
-		m.put("Singapore", "SG");
-		m.put("Slovakia", "SK");
-		m.put("South Africa", "ZA");
-		m.put("Sweden",	"SE");
-		m.put("Switzerland", "CH");
-		m.put("Taiwan", "SY");
-		m.put("Thailand", "TH");
-		m.put("United Kingdom",	"GB");
-		m.put("United States", "US");
-
+		RegexpKeyedMap map = new RegexpKeyedMap();
+        map.put("BDM", "BDM");
+        map.put("Management", "BDM");
+        map.put("DB", "DB");
+        map.put("EDC", "EDC");
+        map.put("ICS", "IICS");
+        map.put("IDQ", "DQ");
+        map.put("IHS", "IHS");
+        map.put("IICS", "IICS");
+        map.put("AXON", "AXON");
+        map.put("Accelerator", "IDA");
+        map.put("database", "DB");
+        map.put("Database", "DB");
+        map.put("Intelligent Cloud", "IICS");
+        map.put("Server", "Server");
+        map.put("Informatica Windows", "Windows");
+        map.put("PC", "PowerCenter");
+        map.put("SqlServer", "Server");
+        Map<String,String> m=new HashMap<String,String>();
+        m.put("Australia", "AU");
+        m.put("Brazil",    "BR");
+        m.put("Bulgaria", "BG");
+        m.put("Canada",    "CA");
+        m.put("Finland", "FI");
+        m.put("France",    "FR");
+        m.put("Germany", "DE");
+        m.put("India", "IN");
+        m.put("Italy", "IT");
+        m.put("Netherlands", "NL");
+        m.put("Norway", "NO");
+        m.put("Pakistan", "PK");
+        m.put("Peru", "PE");
+        m.put("Qatar", "QA");
+        m.put("Romania", "RO");
+        m.put("Singapore", "SG");
+        m.put("Slovakia", "SK");
+        m.put("South Africa", "ZA");
+        m.put("Sweden",    "SE");
+        m.put("Switzerland", "CH");
+        m.put("Taiwan", "SY");
+        m.put("Thailand", "TH");
+        m.put("United Kingdom",    "GB");
+        m.put("United States", "US");
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Usage_Apr2020-Oct2020_20201006121913___10062020_0649hrs__fbc0345c-817e-4380-9caa-9d38924d3cfd.csv"));
@@ -276,7 +241,7 @@ public class CustomerService {
 	        	af.setSubId(csvRecord.get("Marketplace Subscription Id"));
 	        	Date sd = format.parse(csvRecord.get("MonthStartDate"));
 	        	af.setStartDate(sd);
-	        	af.setSku(m.get(csvRecord.get("SKU")));
+	        	af.setSku((String)map.get(csvRecord.get("SKU")));
 	        	af.setCountry(m.get(csvRecord.get("Customer Country")));
 	        	Date ud = format.parse(csvRecord.get("Usage Date"));
 	        	af.setUsageDate(ud);
@@ -284,6 +249,8 @@ public class CustomerService {
 	        	azurefirst.add(af);
 	        }
 	        afdto.saveAll(azurefirst);
+	        csvParser.close();
+	        br.close();
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
@@ -312,6 +279,8 @@ public class CustomerService {
 	        	azuresecond.add(as);
 	        }
 	        asdto.saveAll(azuresecond);
+	        csvParser.close();
+	        br.close();
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
@@ -319,29 +288,18 @@ public class CustomerService {
 	
 	public void saveAzureThird() {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Map<String,String> m=new HashMap<String,String>();
-		m.put("annualiics", "IICS");
-		m.put("big-data-management-10-2-2-byol", "BDM");
-		m.put("big-data-management-byol", "BDM");
-		m.put("enterprise_data_catalog_10_2_2", "EDC");
-		m.put("enterprisedatacatalog_10_2_2_hf1", "EDC");
-		m.put("iics-winter", "IICS");
-		m.put("informaica-dei-1040", "DEI");
-		m.put("informaica-deq-1040", "DEQ");
-		m.put("informaica-deq-1041", "DEQ");
-		m.put("informaica-des-1040", "DES");
-		m.put("informaica-des-1041", "DES");
-		m.put("informaica-edc-1041", "EDC");
-		m.put("informaica-edp-1041", "EDP");
-		m.put("informatica-data-quality", "DQ");
-		m.put("informatica-dei-1041", "DEI");
-		m.put("informaticaedc1040",	"EDC");
-		m.put("informaticaedp1040",	"EDP");
-		m.put("informatica-idq-1040", "DQ");
-		m.put("informatica-idq-1041", "DQ");
-		m.put("powercenter", "PowerCenter");
-		m.put("powercenter-1040", "PowerCenter");
-		m.put("powercenter-1041", "PowerCenter");
+		RegexpKeyedMap m = new RegexpKeyedMap();
+        m.put("iics", "IICS");
+        m.put("management", "BDM");
+        m.put("catalog", "EDC");
+        m.put("dei", "DEI");
+        m.put("deq", "DEQ");
+        m.put("des", "DES");
+        m.put("edc", "EDC");
+        m.put("edp", "EDP");
+        m.put("quality", "DQ");
+        m.put("idq", "DQ");
+        m.put("powercenter", "PowerCenter");
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Azure Marketplace___10062020_0706hrs__8ceb5fdd-5038-414a-8dfa-9484cefa5fbe.csv"));
@@ -355,7 +313,7 @@ public class CustomerService {
 	        	AzureThird at=new AzureThird();
 	        	Date d = format.parse(csvRecord.get("Date"));
 	        	at.setDate(d);
-	        	at.setSku(m.get(csvRecord.get("Offer Name")));
+	        	at.setSku((String)m.get(csvRecord.get("Offer Name")));
 	        	if(csvRecord.get("Country Name")=="") {
 	        		at.setCountry("Other");
 	        	} else {
@@ -365,6 +323,8 @@ public class CustomerService {
 	        	azurethird.add(at);
 	        }
 	        atdto.saveAll(azurethird);
+	        csvParser.close();
+	        br.close();
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
