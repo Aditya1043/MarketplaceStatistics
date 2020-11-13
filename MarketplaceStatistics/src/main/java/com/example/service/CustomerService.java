@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
@@ -35,7 +36,6 @@ import com.example.model.FirstPart;
 import com.example.model.Second;
 import com.example.model.TrendsData;
 import com.example.model.VisitsData;
-import com.example.scheduled.ScheduledTasks;
 import com.google.gson.Gson;
 
 @Service
@@ -202,31 +202,13 @@ public class CustomerService {
         map.put("Informatica Windows", "Windows");
         map.put("PC", "PowerCenter");
         map.put("SqlServer", "Server");
+        
         Map<String,String> m=new HashMap<String,String>();
-        m.put("Australia", "AU");
-        m.put("Brazil",    "BR");
-        m.put("Bulgaria", "BG");
-        m.put("Canada",    "CA");
-        m.put("Finland", "FI");
-        m.put("France",    "FR");
-        m.put("Germany", "DE");
-        m.put("India", "IN");
-        m.put("Italy", "IT");
-        m.put("Netherlands", "NL");
-        m.put("Norway", "NO");
-        m.put("Pakistan", "PK");
-        m.put("Peru", "PE");
-        m.put("Qatar", "QA");
-        m.put("Romania", "RO");
-        m.put("Singapore", "SG");
-        m.put("Slovakia", "SK");
-        m.put("South Africa", "ZA");
-        m.put("Sweden",    "SE");
-        m.put("Switzerland", "CH");
-        m.put("Taiwan", "SY");
-        m.put("Thailand", "TH");
-        m.put("United Kingdom",    "GB");
-        m.put("United States", "US");
+		String[] locales = Locale.getISOCountries();
+		for (String countryCode : locales) {
+			Locale obj = new Locale("", countryCode);
+			m.put(obj.getDisplayCountry(), obj.getCountry());
+		}
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Usage_Apr2020-Oct2020_20201006121913___10062020_0649hrs__fbc0345c-817e-4380-9caa-9d38924d3cfd.csv"));
