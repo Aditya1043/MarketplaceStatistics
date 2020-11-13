@@ -36,8 +36,8 @@ public class RegexpKeyedMap extends HashMap
             keyString = regexps.next().toString();
             try
             {
-                RE regexp = new RE(keyString);
-                if (regexp.match(stringToMatch))
+                RE regexp = new RE(keyString.toLowerCase());
+                if (regexp.match(stringToMatch.toLowerCase()))
                 {
                     result = super.get(keyString);
                     break;

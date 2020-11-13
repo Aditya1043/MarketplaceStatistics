@@ -196,7 +196,6 @@ public class CustomerService {
         map.put("AXON", "AXON");
         map.put("Accelerator", "IDA");
         map.put("database", "DB");
-        map.put("Database", "DB");
         map.put("Intelligent Cloud", "IICS");
         map.put("Server", "Server");
         map.put("Informatica Windows", "Windows");
